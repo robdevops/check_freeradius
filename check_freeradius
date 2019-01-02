@@ -18,7 +18,7 @@ import subprocess
 import sys
 from optparse import OptionParser
 
-usage = "usage: %prog [options]"
+usage = "usage: %prog -s <SECRET> [options]"
 parser = OptionParser(usage)
 parser.add_option("-H", "--host", dest="host", default="localhost", help="RADIUS server. Defaults to localhost.")
 parser.add_option("-p", "--port", dest="port", default="18121", help="RADIUS server port. Defaults to 18121.")
