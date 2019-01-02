@@ -15,7 +15,7 @@ Options:
   -s SECRET, --secret=SECRET
                         RADIUS secret. Required.
   -t STATSTYPE, --type=STATSTYPE
-                        FreeRADIUS-Statistics-Type. 1 for Access &
+                        FreeRADIUS-Statistics-Type. 1 for Authentication &
                         Authorisation. 2 for Accounting. 3 for Both. Defaults
                         to 3.
   -w TIMEOUT, --wait=TIMEOUT
