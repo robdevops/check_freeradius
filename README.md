@@ -6,7 +6,7 @@ Based on [collectd-freeradius](https://github.com/kshcherban/collectd-freeradius
 
 ## Usage
 ```
-Usage: check_freeradius [options]
+Usage: check_freeradius -s <SECRET> [options]
 
 Options:
   -h, --help            show this help message and exit
