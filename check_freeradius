@@ -1,0 +1,73 @@
+#!/usr/bin/python
+# -*- coding: utf-8 -*-
+
+'''
+Nagios plugin for freeradius with performance data. 
+https://github.com/solikeumyeah/check_freeradius
+
+Based on collectd-freeradius by kshcherban:
+https://github.com/kshcherban/collectd-freeradius
+
+Enable the status server to use this script: 
+http://wiki.freeradius.org/config/Status
+'''
+
+from __future__ import print_function
+import re
+import subprocess
+import sys
+from optparse import OptionParser
+
+usage = "usage: %prog [options]"
+parser = OptionParser(usage)
+parser.add_option("-H", "--host", dest="host", default="localhost", help="RADIUS server. Defaults to localhost.")
+parser.add_option("-p", "--port", dest="port", default="18121", help="RADIUS server port. Defaults to 18121.")
+parser.add_option("-s", "--secret", dest="secret", default=False, help="RADIUS secret. Required.")
+parser.add_option("-t", "--type", dest="statstype", default="3", help="FreeRADIUS-Statistics-Type. 1 for Access & Authorisation. 2 for Accounting. 3 for Both. Defaults to 3.")
+parser.add_option("-w", "--wait", dest="timeout", default="3", help="Response timeout in seconds. Defaults to 3.")
+(options, args) = parser.parse_args()
+if not options.secret:
+    parser.error("--secret is required. See --help for details.")
+
+
+def get_metrics():
+    def _convert_name(name):
+        return name.replace('FreeRADIUS-Total-', '').replace('-', '_').lower()
+
+    cmd = ('echo "Message-Authenticator = 0x00, '
+           'FreeRADIUS-Statistics-Type = {statstype}" | '
+           'radclient -t {timeout} -r 1 {host}:{port} status {secret}'
+           .format(
+                port=options.port,
+                secret=options.secret,
+                host=options.host,
+                timeout=options.timeout,
+                statstype=options.statstype))
+    child = subprocess.Popen(cmd, shell=True, stdout=subprocess.PIPE, stderr=subprocess.PIPE)
+    stdout, stderr = child.communicate()
+    try:
+            statusmessage = re.findall(r'Received response.*', stdout)[0]
+    except IndexError:
+            statusmessage = ""
+    returncode = child.returncode
+    metrics = {}
+    found_metrics = re.findall(r'(FreeRADIUS-Total.*) = (\d*)', stdout)
+    for metric_couple in found_metrics:
+        try:
+            metrics[_convert_name(metric_couple[0])] = int(metric_couple[1])
+        except:
+            print("can not collect couple: {0}".format(', '.join(metric_couple)))
+    return metrics, returncode, statusmessage, stderr
+
+
+if __name__ == '__main__':
+    metrics, returncode, statusmessage, stderr = get_metrics()
+    if returncode == 0:
+        print("OK:", statusmessage, "|", end='')
+        for key, value in metrics.items():
+            print(key, value, sep='=', end=';;; ')
+        print()
+    else:
+        print("WARNING:", stderr.strip())
+        sys.exit(returncode)
+
