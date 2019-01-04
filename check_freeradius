@@ -63,14 +63,13 @@ def get_metrics():
 
 if __name__ == '__main__':
     metrics, returncode, statusmessage, stderr = get_metrics()
-    if returncode == 0:
+    if not returncode:
         print("OK:", statusmessage, "|", end='')
         for key, value in metrics.items():
             if options.zero:
                 print(key, value, sep='=', end=';;; ')
-            elif value != 0:
+            elif value:
                 print(key, value, sep='=', end=';;; ')
-
         print()
     else:
         print("WARNING:", stderr.strip())
