@@ -24,8 +24,9 @@ Options:
  ```
  
 ## Example Output
+### OK
 ```
-$ check_freeradius --secret SECRET --zero
+$ check_freeradius -s SECRET -z
 ```
 ```
 OK: Received response ID 2, code 2, length = 224 |auth_malformed_requests=0;;; acct_invalid_requests=0;;; access_requests=513523;;; access_accepts=513413;;; auth_dropped_requests=96;;; accounting_responses=0;;; acct_malformed_requests=0;;; auth_responses=513425;;; auth_invalid_requests=2;;; auth_duplicate_requests=0;;; acct_unknown_types=0;;; access_rejects=12;;; access_challenges=0;;; acct_duplicate_requests=0;;; acct_dropped_requests=0;;; auth_unknown_types=0;;; accounting_requests=0;;; 
@@ -35,8 +36,9 @@ $ echo $?
 0
 ```
 
+### WARNING
 ```
-$ check_freeradius -s SECRET
+$ check_freeradius -s SECRET -z
 ```
 ```
 WARNING: radclient: no response from server for ID 135 socket 3
