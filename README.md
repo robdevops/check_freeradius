@@ -49,5 +49,6 @@ $ echo $?
 ```
 
 ## Dependencies
-Enable the [FreeRADIUS status server](http://wiki.freeradius.org/config/Status) to use this script. 
+* Python
+* Enable the [FreeRADIUS status server](http://wiki.freeradius.org/config/Status) to use this script. 
 
