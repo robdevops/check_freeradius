@@ -25,6 +25,7 @@ parser.add_option("-p", "--port", dest="port", default="18121", help="RADIUS ser
 parser.add_option("-s", "--secret", dest="secret", default=False, help="RADIUS secret. Required.")
 parser.add_option("-t", "--type", dest="statstype", default="3", help="FreeRADIUS-Statistics-Type. 1 for Authentication & Authorisation. 2 for Accounting. 3 for Both. Defaults to 3.")
 parser.add_option("-w", "--wait", dest="timeout", default="3", help="Response timeout in seconds. Defaults to 3.")
+parser.add_option("-z", "--zero", action="store_true", dest="zero", default=False, help="Include counters of value 0. Uses more disk space.")
 (options, args) = parser.parse_args()
 if not options.secret:
     parser.error("--secret is required. See --help for details.")
@@ -65,7 +66,12 @@ if __name__ == '__main__':
     if returncode == 0:
         print("OK:", statusmessage, "|", end='')
         for key, value in metrics.items():
-            print(key, value, sep='=', end=';;; ')
+            if options.zero:
+                print(key, value, sep='=', end=';;; ')
+            else:
+                if value != 0:  
+                    print(key, value, sep='=', end=';;; ')
+
         print()
     else:
         print("WARNING:", stderr.strip())
