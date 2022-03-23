@@ -18,11 +18,11 @@ import subprocess
 import sys
 from optparse import OptionParser
 
-usage = "usage: %prog -s <SECRET> [options]"
+usage = "usage: %prog -s <adminsecret> [options]"
 parser = OptionParser(usage)
 parser.add_option("-H", "--host", dest="host", default="localhost", help="RADIUS server. Defaults to localhost.")
 parser.add_option("-p", "--port", dest="port", default="18121", help="RADIUS server port. Defaults to 18121.")
-parser.add_option("-s", "--secret", dest="secret", default=False, help="RADIUS secret. Required.")
+parser.add_option("-s", "--secret", dest="secret", default="adminsecret", help="RADIUS secret. Defaults to 'adminsecret'")
 parser.add_option("-t", "--type", dest="statstype", default="3", help="FreeRADIUS-Statistics-Type. 1 for Authentication & Authorisation. 2 for Accounting. 3 for Both. Defaults to 3.")
 parser.add_option("-w", "--wait", dest="timeout", default="3", help="Response timeout in seconds. Defaults to 3.")
 parser.add_option("-z", "--zero", action="store_true", dest="zero", default=False, help="Include counters of value 0. Uses more disk space.")
