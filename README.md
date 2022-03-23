@@ -12,7 +12,7 @@ Options:
   -h, --help            show this help message and exit
   -H HOST, --host=HOST  RADIUS server. Defaults to localhost.
   -p PORT, --port=PORT  RADIUS server port. Defaults to 18121.
-  -s adminsecret, --secret=adminsecret
+  -s SECRET, --secret=SECRET
                         RADIUS secret. Defaults to 'adminsecret'.
   -t STATSTYPE, --type=STATSTYPE
                         FreeRADIUS-Statistics-Type. 1 for Authentication &
