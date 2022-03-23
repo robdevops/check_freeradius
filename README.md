@@ -49,6 +49,7 @@ $ echo $?
 ```
 
 ## Dependencies
-* Python
+* Python3
+* freeradius-utils package (radclient)
 * Enable the [FreeRADIUS status server](http://wiki.freeradius.org/config/Status) to use this script. 
 
